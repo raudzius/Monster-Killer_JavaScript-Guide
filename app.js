@@ -24,6 +24,13 @@ function adjustHealthBars(maxLife) {
   playerHealthBar.value = maxLife;
 }
 
+function reset() {
+  currentMonsterHealth = chosenMaxLife;
+  currentPlayerHealth = chosenMaxLife;
+  playerHealthBar.value = chosenMaxLife;
+  monsterHealthBar.value = chosenMaxLife;
+}
+
 adjustHealthBars(chosenMaxLife);
 
 function endRound() {
@@ -45,6 +52,10 @@ function endRound() {
     alert('You lost!');
   } else if (currentPlayerHealth <= 0 && currentMonsterHealth <= 0) {
     alert('You have a draw!');
+  }
+
+  if (currentPlayerHealth <= 0 || currentMonsterHealth <= 0) {
+    reset();
   }
 }
 
@@ -90,8 +101,3 @@ function healPlayerHandler() {
 attackBtn.addEventListener('click', attackHandler);
 strongAttackBtn.addEventListener('click', strongAttackHandler);
 healBtn.addEventListener('click', healPlayerHandler);
-
-function resetGame(value) {
-  playerHealthBar.value = value;
-  monsterHealthBar.value = value;
-}
