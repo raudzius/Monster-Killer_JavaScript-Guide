@@ -1,9 +1,14 @@
 const monsterHealthBar = document.getElementById('monster-health');
 const playerHealthBar = document.getElementById('player-health');
+const bonusLifeEl = document.getElementById('bonus-life');
 
 const attackBtn = document.getElementById('attack-btn');
+const strongAttackBtn = document.getElementById('strong-attack-btn');
+const healBtn = document.getElementById('heal-btn');
+const logBtn = document.getElementById('log-btn');
 
 const ATTACK_VALUE = 10;
+const STRONG_ATTACK_VALUE = 17;
 const MONSTER_ATTACK_VALUE = 14;
 
 let chosenMaxLife = 100;
@@ -31,8 +36,8 @@ function dealPlayerDamage(damage) {
   return dealtDamage;
 }
 
-function attackHandler() {
-  const damage = dealMonsterDamage(ATTACK_VALUE);
+function attackMonster(mode) {
+  const damage = dealMonsterDamage(mode);
   currentMonsterHealth -= damage;
   const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
   currentPlayerHealth -= playerDamage;
@@ -45,8 +50,30 @@ function attackHandler() {
   }
 }
 
+function attackHandler() {
+  attackMonster(ATTACK_VALUE);
+}
+
+function strongAttackHandler() {
+  attackMonster(STRONG_ATTACK_VALUE);
+}
+
 attackBtn.addEventListener('click', attackHandler);
+strongAttackBtn.addEventListener('click', strongAttackHandler);
 
 function increasePlayerHealth(healValue) {
   playerHealthBar.value = +playerHealthBar.value + healValue;
+}
+
+function resetGame(value) {
+  playerHealthBar.value = value;
+  monsterHealthBar.value = value;
+}
+
+function removeBonusLife() {
+  bonusLifeEl.parentNode.removeChild(bonusLifeEl);
+}
+
+function setPlayerHealth(health) {
+  playerHealthBar.value = health;
 }
