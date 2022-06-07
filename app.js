@@ -15,6 +15,7 @@ const HEAL_VALUE = 20;
 let chosenMaxLife = 100;
 let currentMonsterHealth = chosenMaxLife;
 let currentPlayerHealth = chosenMaxLife;
+let hasBonusLife = true;
 
 function adjustHealthBars(maxLife) {
   monsterHealthBar.max = maxLife;
@@ -26,8 +27,18 @@ function adjustHealthBars(maxLife) {
 adjustHealthBars(chosenMaxLife);
 
 function endRound() {
+  const initialPlayerHealth = currentPlayerHealth;
   const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
   currentPlayerHealth -= playerDamage;
+
+  if (currentPlayerHealth <= 0 && hasBonusLife) {
+    hasBonusLife = false;
+    bonusLifeEl.parentNode.removeChild(bonusLifeEl);
+    currentPlayerHealth = initialPlayerHealth;
+    alert('You would be dead but the bonus life saved you!');
+    playerHealthBar.value = initialPlayerHealth;
+  }
+
   if (currentMonsterHealth <= 0 && currentPlayerHealth > 0) {
     alert('You won!');
   } else if (currentPlayerHealth <= 0 && currentMonsterHealth > 0) {
@@ -83,12 +94,4 @@ healBtn.addEventListener('click', healPlayerHandler);
 function resetGame(value) {
   playerHealthBar.value = value;
   monsterHealthBar.value = value;
-}
-
-function removeBonusLife() {
-  bonusLifeEl.parentNode.removeChild(bonusLifeEl);
-}
-
-function setPlayerHealth(health) {
-  playerHealthBar.value = health;
 }
